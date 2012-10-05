@@ -1,0 +1,352 @@
+<!DOCTYPE HTML>
+
+<html>
+  <head>
+  	<!-- This is required notation for PhoneGap and JQuery Mobile-->
+  	
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>ReelLifeTrial3</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    
+	<style>
+	    .container {
+	    padding: 5px 0 0 5px;
+	    width: 99%;
+	    height: 99%;
+		}
+		
+		.cnt {
+		align:center;
+		}
+	
+		.image {
+	    margin-right: 5px;
+	    margin-bottom: 5px;
+	    float:left;
+	    width:30%;
+	    height:30%;
+		}
+		
+		.tallerbtn {
+			height:150px;
+		}
+    </style>
+    
+    <!-- JQuery Mobile notation -->
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.css" />
+	<script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.js"></script>
+	<script type=”text/javascript” charset=”utf-8? src=”cdv-plugin-fb-connect.js”></script>
+	
+	
+	<!-- notation for PhoneGap -->
+
+	  <script type="text/javascript" charset="utf-8" src="phonegap-1.4.1.js"></script>
+	  <script type="text/javascript" charset="utf-8">
+      
+        var onDeviceReady = function() {
+            document.getElementById("devready").innerHTML = "OnDeviceReady fired.";
+        };
+
+        function init() {
+            document.addEventListener("deviceready", onDeviceReady, true);
+        }   
+        
+        
+        
+        var pictureSource;   // picture source
+        var destinationType; // sets the format of returned value 
+
+        // Wait for Cordova to connect with the device
+        //
+        document.addEventListener("deviceready",onDeviceReady,false);
+
+        // Cordova is ready to be used!
+        //
+        function onDeviceReady() {
+            pictureSource=navigator.camera.PictureSourceType;
+            destinationType=navigator.camera.DestinationType;
+        }
+
+        // Called when a photo is successfully retrieved
+        //
+        function onPhotoDataSuccess(imageData) {
+          // Uncomment to view the base64 encoded image data
+          // console.log(imageData);
+
+          // Get image handle
+          //
+          var smallImage = document.getElementById('smallImage');
+
+          // Unhide image elements
+          //
+          smallImage.style.display = 'block';
+
+          // Show the captured photo
+          // The inline CSS rules are used to resize the image
+          //
+          smallImage.src = "data:image/jpeg;base64," + imageData;
+        }
+
+        // Called when a photo is successfully retrieved
+        //
+        function onPhotoURISuccess(imageURI) {
+          // Uncomment to view the image file URI 
+          // console.log(imageURI);
+
+          // Get image handle
+          //
+          var largeImage = document.getElementById('largeImage');
+
+          // Unhide image elements
+          //
+          largeImage.style.display = 'block';
+
+          // Show the captured photo
+          // The inline CSS rules are used to resize the image
+          //
+          largeImage.src = imageURI;
+        }
+
+        // A button will call this function
+        //
+        function capturePhoto() {
+          // Take picture using device camera and retrieve image as base64-encoded string
+          navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 50,
+          destinationType: destinationType.DATA_URL });
+        }
+
+        // A button will call this function
+        //
+        function getPhoto(source) {
+          // Retrieve image file location from specified source
+          navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 50, 
+            destinationType: destinationType.FILE_URI,
+            sourceType: source });
+        }
+
+        // Called if something bad happens.
+        // 
+        function onFail(message) {
+          alert('Failed because: ' + message);
+        }
+        
+        
+        
+        
+</script>  
+
+
+  </head>
+  <body onload="init();" id="stage" class="theme">
+
+<!-- Start of the first and main page -->
+<div data-role="page" id="MainPage" data-theme="a">
+	
+	<div data-role="content" class="cnt">
+	<img style="height:70px; width:250px;" src="http://i903.photobucket.com/albums/ac232/PatrickCliff/camera-film-iconcopy.jpg"/>
+		<h2>You'll have 7 seconds... make it count.</h2>
+		<div class="ui-grid-a">
+			<div class="ui-block-a"><a class="tallerbtn" href="#MyReel" data-role="button" data-transition="slide">My Reel</a></div>
+			<div class="ui-block-b"><a class="tallerbtn" href="#FriendsReels" data-role="button" data-transition="slide">Friend's Reels</a></div>
+		</div><!-- /grid-a -->
+		<br>
+		<div class="ui-grid-a">
+			<div class="ui-block-a"><a class="tallerbtn" href="#TheReelWorld" data-role="button" data-transition="slide">The Reel World</a></div>
+			<div class="ui-block-b"><a class="tallerbtn" href="#Settings" data-role="button" data-transition="slide">Settings</a></div>
+		</div><!-- /grid-a -->
+		<p style="text-align:center;"> Thanks for checking out the ReelLife! </p>
+	</div>
+	<div data-role="footer">
+	<p class="cnt" data-role="button" onclick="navigator.app.exitApp()">I'm done for now.</p>
+	</div>
+</div>
+
+<!-- Start of the second page with the users photo reel -->
+<div data-role="page" id="MyReel">
+<div data-role="header">
+		<h1>My Reel</h1>
+	</div>
+	<div data-role="content">
+		
+		<div data-role="navbar">
+			<ul>
+				<li><a href="#AddDimensions">Add Dimensions</a></li>
+				<li><a href="#MyReelExternal">Switch to External</a></li>
+			</ul>
+		</div><!-- /navbar -->
+		
+		<br>
+		<img style="height:60%; width:98%; margin-right:auto; margin-left:auto;" src="http://i903.photobucket.com/albums/ac232/PatrickCliff/HPIM0865.jpg" />
+		
+		<!-- This link eventually will only be accessible through the random notifications that pop up  -->
+		<p><a href="#PhotoTaker" data-role="button" data-transition="slide">Bring me to the photo taker</a></p>
+				 
+	</div>
+	
+	<div data-role="footer" data-id="perstFooter" data-position="fixed">
+		<div data-role="navbar">
+			<ul>
+				<li><a href="#MainPage">Back to Main</a></li>
+			</ul>
+		</div><!-- /navbar -->
+	</div><!-- /footer -->
+</div>
+
+<!-- Start of a page within MyReel that holds the user's external reel -->
+<div data-role="page" id="MyReelExternal">
+<div data-role="header">
+		<h1>My Reel</h1>
+	</div>
+	<div data-role="content">
+		<p>This will contain the user's external reel</p>
+		<p><a href="#MyReel">Switch to personal reel</a></p>
+		 
+	</div>
+	<div data-role="footer" data-id="perstFooter" data-position="fixed">
+		<div data-role="navbar">
+			<ul>
+				<li><a href="#MainPage">Back to Main</a></li>
+			</ul>
+		</div><!-- /navbar -->
+	</div><!-- /footer -->
+</div>
+
+<!-- this page is where the user will be taken to take their picture -->
+<div data-role="page" id="PhotoTaker">
+<div data-role="header">
+		<h1>Make it Count!</h1>
+	</div>
+	<br><br><br>
+	<button onclick="capturePhoto();">Capture Photo</button>
+    	
+    	<div data-role="footer" data-id="perstFooter" data-position="fixed">
+		<div data-role="navbar">
+			<ul>
+				<li><a href="#MainPage">Back to Main</a></li>
+			</ul>
+		</div><!-- /navbar -->
+	</div><!-- /footer -->
+</div>
+
+<!-- Start of the third page that has the user's friend's reels -->
+<div data-role="page" id="FriendsReels">
+<div data-role="header">
+		<h1>Friend's Reels</h1>
+	</div>
+	<div data-role="content">
+		 
+		 	<div class="container">
+    	<div class="image"><img style="height:99%; width:99%;" src="http://i903.photobucket.com/albums/ac232/PatrickCliff/HPIM0857.jpg"></div>
+    	<div class="image"><img style="height:99%; width:99%;" src="https://lh5.googleusercontent.com/-2MUQm8x-tes/TkN06uiyY7I/AAAAAAAAAEc/V0fOEhm26-Q/s667/IMG_1771.JPG"></div>
+    	<div class="image"><img style="height:99%; width:99%;" src="http://sphotos.xx.fbcdn.net/hphotos-snc6/206966_10150148342303789_1154289_n.jpg"></div>
+    	<div class="image"><img style="height:99%; width:99%;" src="http://sphotos.xx.fbcdn.net/hphotos-ash3/166566_492139286864_3380579_n.jpg"></div>
+    	<div class="image"><img style="height:99%; width:99%;" src="http://sphotos.xx.fbcdn.net/hphotos-ash3/548356_3670783447056_1685075928_n.jpg"></div>
+    	<div class="image"><img style="height:99%; width:99%;" src="http://sphotos.xx.fbcdn.net/hphotos-ash2/150144_436505033027242_100000032467289_1646134_1334658145_n.jpg" /></div>
+    	<div class="image"><img style="height:99%; width:99%;" src="http://sphotos.xx.fbcdn.net/hphotos-ash4/421661_314650891924128_768782527_n.jpg"></div>
+    	<div class="image"><img style="height:99%; width:99%;" src="http://sphotos.xx.fbcdn.net/hphotos-prn1/533326_3209688086373_1391340125_32328389_1590119563_n.jpg"></div>
+    	<div class="image"><img style="height:99%; width:99%;" src="http://a8.sphotos.ak.fbcdn.net/hphotos-ak-snc7/72016_143450515710834_3265642_n.jpg"></div>
+	</div>
+		 
+	</div>?
+	
+	<div data-role="footer" data-id="perstFooter" data-position="fixed">
+		<div data-role="navbar">
+			<ul>
+				<li><a href="#MainPage">Back to Main</a></li>
+			</ul>
+		</div><!-- /navbar -->
+	</div><!-- /footer -->
+	
+</div>
+
+<!-- Start of the fourth page with info about other people's reels and info about competitions and what not -->
+<div data-role="page" id="TheReelWorld">
+	<!--  <p>Do you have an internet connection?</p>
+	<a href="#" onclick="navigator.app.loadUrl('http://dreamingofflight.com/reellifetest.html')">second try</a>
+	<a href="http://dreamingofflight.com/reellifetest.html" data-role="button" data-transition="slide">Yes!</a></p>
+	
+	<a href="#popupBasic" data-rel="popup" data-role="button">No I do not...</a>
+	<div data-role="popup" id="popupBasic">
+		Then you can't access Reel World...
+	</div> -->
+	
+	<div data-role="header">
+		<h1>The Reel World</h1>
+	</div>
+	
+	<div data-role="content">
+		<h2>Upcoming Competitions</h2>
+			<ul>
+				<li>get ready to jump!</li>
+				<li>who can get the most friends in 7 seconds?</li>
+				<li>lots and lots of color</li>
+				<li>anyone remember planking?</li>
+			</ul>
+			<p data-role="button">View Previous Competitions</p>
+			
+			
+		 <h2>The News Reel:</h2>
+		 	<ul>
+		 		<li>Version 1.0 Beta to be released in a  few weeks contact reellifeapp@gmail.com to participate in testing!</li>
+		 		<li>Want to be a part of the Reel Life publicity team?  Do we have room for you!</li>
+		 	</ul>
+		 	<p data-role="button">Learn More About Reel Life</p>
+	
+		 
+	</div>
+	
+	
+	<div data-role="footer" data-id="perstFooter" data-position="fixed">
+		<div data-role="navbar">
+			<ul>
+				<li><a href="#MainPage">Back to Main</a></li>
+			</ul>
+		</div><!-- /navbar -->
+	</div><!-- /footer -->
+</div>
+
+<!-- ability to edit photos will be here (this may go within the MyReel page at some point) -->
+<div data-role="page" id="AddDimensions">
+	<p>I will add the Aviary abilities within this section.  The user will be able to edit photos right after taking them but
+	not after that.  Thus this only needs to be accessible right after the picture has been taken.  Thought it might be good
+	to have it available at all times once friend tagging is added and should actually be accessible for the next 24 hours
+	just in case they are busy right after the picture was taken and want to edit it later.  Friend tagging will be available
+	without a time limit.</p>
+	
+	<div data-role="footer" data-id="perstFooter" data-position="fixed">
+		<div data-role="navbar">
+			<ul>
+				<li><a href="#MainPage">Back to Main</a></li>
+			</ul>
+		</div><!-- /navbar -->
+	</div><!-- /footer -->
+</div>
+
+<!-- The user will be able to change the color format and other things here -->
+<div data-role="page" id="Settings">
+	<div data-role="header">Settings</div>
+		<ul>
+			<li>My Account</li> 
+			<li>Color Layout</li>
+			<li>Photo Time Restrictions</li>
+			<li>Sharing Settings</li>
+		</ul>
+		
+		<div data-role="footer" data-id="perstFooter" data-position="fixed">
+		<div data-role="navbar">
+			<ul>
+				<li><a href="#MainPage">Back to Main</a></li>
+			</ul>
+		</div><!-- /navbar -->
+	</div><!-- /footer -->
+</div>
+</html>
+	
+	<p>
+    <span id="devready">onDeviceReady not fired.</span>
+    </p>
+
+ </body>
+</html>
